@@ -2,18 +2,16 @@
 import React from 'react';
 import { StyleSheet, Text, View,TextInput,Button,ScrollView,TouchableOpacity} from 'react-native';
 import { useState } from 'react';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Todoitems from './components/Todoitems';
+import Inputtodo from './components/Inputtodo';
 
 export default function App() {
   const [outputText, setoutputText] = useState("Welcome to my  first React native mobile app");
-  const [enteredGoal, setenteredGoal] = useState('');
   const [courseGoals, setCourseGoals] = useState([]);
 
-  const goalinputHandler = (enteredText) => {
-         setenteredGoal(enteredText);
-  } 
-  const addgoalHandler = () => {
-    setCourseGoals( currentGoals => [...currentGoals, enteredGoal]);
+  
+  const addgoalHandler = enteredtext => {
+    setCourseGoals( currentGoals => [...currentGoals, enteredtext]);
   
   }
 
@@ -29,28 +27,12 @@ export default function App() {
 
       {/* Todo List */}
       <View style={styles.mainContainer}>
-       <View style={styles.formContainer}>
-         <TextInput placeholder="Input Todo"
-          style={styles.input} 
-          onChangeText={goalinputHandler}
-          value={enteredGoal}
-          clearButtonMode="always"
-          >
-
-          </TextInput>
-          <TouchableOpacity
-          style={styles.button}
-            onPress={addgoalHandler}
-        >
-            <Text style={styles.buttontext}>Add</Text>
-        </TouchableOpacity>
-         {/* <Button title="Add"  onPress={addgoalHandler}/> */}
-
-      </View>
+       {/* form input */}
+       <Inputtodo  onclickFire={addgoalHandler}/>
        <ScrollView   showsVerticalScrollIndicator={false}>
         
        <View style={styles.listedGoalsContainer}>
-         {courseGoals.map((goal , index) =><View style={styles.listedGoals} key={index}><Text style={styles.listtext}>{goal}</Text></View> )}
+         {courseGoals.map((goal , index) => <Todoitems title={goal} key={index}/> )}
        </View>
        </ScrollView>
     </View>
@@ -105,18 +87,9 @@ const styles = StyleSheet.create({
     fontSize:20,
   },
 
-  listtext:{
-    fontWeight:"bold",
-  },
 
   listedGoalsContainer:{
     marginTop:40,
   },
-  listedGoals:{
-    backgroundColor:"#ffff",
-    padding:15,
-    marginBottom:10,
-    fontFamily: "Cochin",
-    fontWeight:"bold"
-  }
+
 });
