@@ -1,11 +1,13 @@
 import React from 'react';
-import {View,Text,StyleSheet} from 'react-native';
+import {View,Text,StyleSheet,TouchableOpacity,Alert} from 'react-native';
  
 
 Todoitems = props =>{
     return(
-         <View style={styles.listedGoals} key={props.keyValue}>
+        <TouchableOpacity onPress={props.onDelete.bind(this,props.id)}>
+         <View style={styles.listedGoals} key={props.id}>
          <Text style={styles.listtext}  >{props.title}</Text></View>
+         </TouchableOpacity>
      )
 };
 

@@ -1,6 +1,6 @@
 //import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View,TextInput,Button,ScrollView,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View,TextInput,Button,ScrollView,TouchableOpacity,Alert} from 'react-native';
 import { useState } from 'react';
 import Todoitems from './components/Todoitems';
 import Inputtodo from './components/Inputtodo';
@@ -11,11 +11,33 @@ export default function App() {
 
   
   const addgoalHandler = enteredtext => {
-    setCourseGoals( currentGoals => [...currentGoals, enteredtext]);
+    if(enteredtext !="" ) {
+      if(courseGoals.includes(enteredtext)){
+        Alert.alert(
+          "This goal already exist please!"
+        );
+      
+      }else{
+        setCourseGoals(currentGoals => [...currentGoals, enteredtext]);
+
+        enteredtext = " ";
+      }
+    
+    }else{
+      Alert.alert(
+        "Please input your goal"
+      );
+    }
   
   }
 
+  
+  const removegoalHandler = goalId =>{
 
+    setCourseGoals(currentGoals => {
+      return currentGoals.filter( (goal,index) => index !==goalId);
+    });
+  }
 
   return (
     
@@ -30,9 +52,8 @@ export default function App() {
        {/* form input */}
        <Inputtodo  onclickFire={addgoalHandler}/>
        <ScrollView   showsVerticalScrollIndicator={false}>
-        
        <View style={styles.listedGoalsContainer}>
-         {courseGoals.map((goal , index) => <Todoitems title={goal} key={index}/> )}
+         {courseGoals.map((goal , index) => <Todoitems title={goal} key={index} id={index}  onDelete={ removegoalHandler}/> )}
        </View>
        </ScrollView>
     </View>
